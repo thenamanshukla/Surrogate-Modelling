@@ -1,5 +1,9 @@
 # Multi-Kernel Additive Gaussian Process for Crypto Return Prediction with Per-Modality Uncertainty Decomposition
 
+<img src="./img/crypto_gp_dashboard.png" width="900"/>
+
+*Live dashboard: the walk-forward fit runs in the background and streams each window's predictions and per-modality variance decomposition as it completes.*
+
 ## Sandbox disclosure
 
 This code was authored and reviewed in an environment with no internet access in the code-execution
@@ -72,6 +76,10 @@ that point, positive = they disagree / compound uncertainty). This is implemente
 or normalizes away the cross terms, so `D_f+D_t+D_s+ΣC` always equals the model's actual total variance
 to machine precision — you can unit-test this identity directly.
 
+<img src="./img/crypto_gp_variance_decomposition.png" width="900"/>
+
+*Predictive variance per modality decomposition across the walk-forward windows for ETH. The stacked areas show how much of the model's total predictive uncertainty is attributed to the fundamental, technical, and sentiment blocks at each date.*
+
 ## Evaluation protocol
 
 - **Walk-forward** (expanding window, weekly refit) across all five assets, held out chronologically —
@@ -88,6 +96,16 @@ to machine precision — you can unit-test this identity directly.
   (fundamental) stays flat, as hypothesized.
 - **Baselines**: (1) Keras LSTM point-forecast + empirical residual-quantile intervals, (2) GARCH(1,1)
   volatility model (`arch` package) for the variance benchmark, (3) single-kernel (non-additive) GP.
+
+### Point forecast metrics and model spec
+
+<img src="./img/crypto_gp_metrics_modelspec.png" width="900"/>
+
+### Calibration and empirical coverage
+
+<img src="./img/crypto_gp_calibration.png" width="900"/>
+
+*Empirical coverage against nominal predictive interval levels, reported overall and split by the modality that dominated the variance decomposition at each point.*
 
 ## References
 
