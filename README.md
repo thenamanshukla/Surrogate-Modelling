@@ -3,8 +3,6 @@
 
 <img src="./gp_regression.gif" width="1000"/>
 
-* Starting from the prior, each new observation is revealed one at a time: the posterior mean (blue) bends to pass through the data, the shaded band showing the model's uncertainty collapses at the observed points and stays wide where data is absent, and the faint green curves are posterior function samples that agree closely where the model is confident and fan out where it is not. The dashed pink curve is the true function being learnt. This picture of a distribution over functions that tightens as it learns is the single idea that ties every project in this repository together.*
-
 Summer Research Internship, Department of Mathematics, Centre of Excellence for Data Science and Computational Mathematics, Indian Institute of Technology Madras, 2026.
 
 Carried out by Naman Shukla (Department of Computer Science and Engineering, National Institute of Technology Mizoram) under the supervision of Prof. Neelesh Shankar Upadhye, Department of Mathematics, IIT Madras.
