@@ -1,7 +1,9 @@
 # Gaussian Processes, Kernels & Surrogate Modeling Resources
 
-A topic-wise list of resources on Gaussian Processes (GPs), kernels,
-Bochner's theorem, and surrogate modeling.
+Beyond the primary textbook, Gaussian Processes for Machine Learning by Rasmussen and Williams, a wide range of other sources were used throughout this internship. The most useful of them are collected below, organised by topic.
+
+## Interactive Tutorials
+- [Gaussian Processes Regression Tutorial (Google Colab)](https://colab.research.google.com/github/jwangjie/Gaussian-Processes-Regression-Tutorial/blob/master/gpr_tutorial.ipynb): *Jie Wang, hands-on GPR notebook*
 
 ## Gaussian Process Fundamentals
 - [GP Tutorial & Examples](https://github.com/neelsoumya/gaussian_process_tutorial): *Soumya Banerjee, University of Cambridge*
