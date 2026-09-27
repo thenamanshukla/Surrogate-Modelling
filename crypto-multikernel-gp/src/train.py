@@ -1,4 +1,5 @@
 import os
+import random
 import numpy as np
 import pandas as pd
 import torch
@@ -11,6 +12,24 @@ from .models.decomposition import exact_variance_decomposition, dominant_modalit
 ASSETS = ["BTC", "ETH", "SOL", "XRP", "DOGE"]
 OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+DEFAULT_SEED = 42
+
+
+def set_seed(seed=DEFAULT_SEED):
+    """Seed every generator used in the training path.
+
+    train_gp draws a validation split with torch.randperm, selects inducing
+    points with np.random.choice, and initialises the three MLP encoders and
+    the variational parameters from the torch generator. Seeding once at the
+    start of a walk-forward run makes the whole sequence of windows
+    reproducible while still letting each window draw a different split.
+    """
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 
 def assemble_tensor(d):
@@ -90,7 +109,8 @@ def train_gp(train_x, train_y, slices, n_iter=600, lr=0.02, n_inducing=48, verbo
     return model, likelihood
 
 
-def walk_forward(symbol, window_train=180, step=5, horizon_test=5, on_window_complete=None):
+def walk_forward(symbol, window_train=180, step=5, horizon_test=5, on_window_complete=None, seed=DEFAULT_SEED):
+    set_seed(seed)
     d = build_dataset(symbol)
     X, y, slices = assemble_tensor(d)
 
@@ -172,11 +192,11 @@ def walk_forward(symbol, window_train=180, step=5, horizon_test=5, on_window_com
     return df
 
 
-def run_all():
+def run_all(seed=DEFAULT_SEED):
     all_results = []
     for symbol in ASSETS:
         print(f"walk-forward: {symbol}")
-        df = walk_forward(symbol)
+        df = walk_forward(symbol, seed=seed)
         all_results.append(df)
     combined = pd.concat(all_results, ignore_index=True)
     combined.to_csv(os.path.join(OUTPUT_DIR, "all_assets_walk_forward_results.csv"), index=False)
